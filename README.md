@@ -1,4 +1,4 @@
-# JS Pollyfills
+# JS Polyfills
 
 This collection of polyfills recreates much of the JavaScript 5.1 standard
 library, such as parseInt, Array.prototype.pop and Math.abs.
