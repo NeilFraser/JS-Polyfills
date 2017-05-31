@@ -10,7 +10,7 @@ reduce the number of native code functions you will need to write.
 
 Limitations:
 
- * At this time there is no support for Date or RexExp.
+ * At this time there is no support for Date or RegExp.
  * JSON is not covered due to the existing
 [JSON2](https://github.com/douglascrockford/JSON-js) and
 [JSON3](https://bestiejs.github.io/json3/) polyfills.
