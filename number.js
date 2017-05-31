@@ -1,4 +1,35 @@
 
+Object.defineProperty(Number, 'MAX_VALUE', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: 1.7976931348623157e+308
+});
+Object.defineProperty(Number, 'MIN_VALUE', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: 5e-324
+});
+Object.defineProperty(Number, 'NaN', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: NaN
+});
+Object.defineProperty(Number, 'NEGATIVE_INFINITY', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: -Infinity
+});
+Object.defineProperty(Number, 'POSITIVE_INFINITY', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: Infinity
+});
+
 Object.defineProperty(Number.prototype, 'toExponential', {
   configurable: true,
   enumerable: false,

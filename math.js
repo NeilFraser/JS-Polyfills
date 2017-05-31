@@ -1,4 +1,53 @@
 
+Object.defineProperty(Math, 'E', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: 2.718281828459045
+});
+Object.defineProperty(Math, 'LN2', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: 0.6931471805599453
+});
+Object.defineProperty(Math, 'LN10', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: 2.302585092994046
+});
+Object.defineProperty(Math, 'LOG2E', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: 1.4426950408889634
+});
+Object.defineProperty(Math, 'LOG10E', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: 0.4342944819032518
+});
+Object.defineProperty(Math, 'PI', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: 3.141592653589793
+});
+Object.defineProperty(Math, 'SQRT1_2', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: 0.7071067811865476
+});
+Object.defineProperty(Math, 'SQRT2', {
+  configurable: false,
+  enumerable: false,
+  writable: false,
+  value: 1.4142135623730951
+});
+
 Object.defineProperty(Math, 'abs', {
   configurable: true,
   enumerable: false,
