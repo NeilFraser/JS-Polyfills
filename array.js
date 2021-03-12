@@ -21,15 +21,15 @@ Object.defineProperty(Array.prototype, 'pop', {
       throw TypeError('"this" is null or undefined');
     }
     var o = Object(this);
-    var length = o.length >>> 0;
-    if (!length || length < 0) {
+    var len = o.length >>> 0;
+    if (!len || len < 0) {
       o.length = 0;
       return undefined;
     }
-    length--;
-    var x = o[length];
-    delete o[length];  // Needed for non-arrays.
-    o.length = length;
+    len--;
+    var x = o[len];
+    delete o[len];  // Needed for non-arrays.
+    o.length = len;
     return x;
   }
 });
@@ -38,18 +38,18 @@ Object.defineProperty(Array.prototype, 'push', {
   configurable: true,
   enumerable: false,
   writable: true,
-  value: function() {
+  value: function(var_args) {
     if (!this) {
       throw TypeError('"this" is null or undefined');
     }
     var o = Object(this);
-    var length = o.length >>> 0;
+    var len = o.length >>> 0;
     for (var i = 0; i < arguments.length; i++) {
-      o[length] = arguments[i];
-      length++;
+      o[len] = arguments[i];
+      len++;
     }
-    o.length = length;
-    return length;
+    o.length = len;
+    return len;
   }
 });
 
@@ -62,17 +62,17 @@ Object.defineProperty(Array.prototype, 'shift', {
       throw TypeError('"this" is null or undefined');
     }
     var o = Object(this);
-    var length = o.length >>> 0;
-    if (!length || length < 0) {
+    var len = o.length >>> 0;
+    if (!len || len < 0) {
       o.length = 0;
       return undefined;
     }
     var value = o[0];
-    for (var i = 0; i < length - 1; i++) {
+    for (var i = 0; i < len - 1; i++) {
       o[i] = o[i + 1];
     }
     delete o[i];  // Needed for non-arrays.
-    o.length = length - 1;
+    o.length = len - 1;
     return value;
   }
 });
@@ -81,22 +81,22 @@ Object.defineProperty(Array.prototype, 'unshift', {
   configurable: true,
   enumerable: false,
   writable: true,
-  value: function() {
+  value: function(var_args) {
     if (!this) {
       throw TypeError('"this" is null or undefined');
     }
     var o = Object(this);
-    var length = o.length >>> 0;
-    if (!length || length < 0) {
-      length = 0;
+    var len = o.length >>> 0;
+    if (!len || len < 0) {
+      len = 0;
     }
-    for (var i = length - 1; i >= 0; i--) {
+    for (var i = len - 1; i >= 0; i--) {
       o[i + arguments.length] = o[i];
     }
     for (var i = 0; i < arguments.length; i++) {
       o[i] = arguments[i];
     }
-    return o.length = length + arguments.length;
+    return o.length = len + arguments.length;
   }
 });
 
@@ -109,14 +109,14 @@ Object.defineProperty(Array.prototype, 'reverse', {
       throw TypeError('"this" is null or undefined');
     }
     var o = Object(this);
-    var length = o.length >>> 0;
-    if (!length || length < 2) {
+    var len = o.length >>> 0;
+    if (!len || len < 2) {
       return o;  // Not an array, or too short to reverse.
     }
-    for (var i = 0; i < length / 2 - 0.5; i++) {
+    for (var i = 0; i < len / 2 - 0.5; i++) {
       var x = o[i];
-      o[i] = o[length - i - 1];
-      o[length - i - 1] = x;
+      o[i] = o[len - i - 1];
+      o[len - i - 1] = x;
     }
     return o;
   }
@@ -131,13 +131,13 @@ Object.defineProperty(Array.prototype, 'indexOf', {
       throw TypeError('"this" is null or undefined');
     }
     var o = Object(this);
-    var length = o.length >>> 0;
+    var len = o.length >>> 0;
     var n = fromIndex | 0;
-    if (!length || n >= length) {
+    if (!len || n >= len) {
       return -1;
     }
-    var i = Math.max(n >= 0 ? n : length - Math.abs(n), 0);
-    while (i < length) {
+    var i = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+    while (i < len) {
       if (i in o && o[i] === searchElement) {
         return i;
       }
@@ -156,18 +156,18 @@ Object.defineProperty(Array.prototype, 'lastIndexOf', {
       throw TypeError('"this" is null or undefined');
     }
     var o = Object(this);
-    var length = o.length >>> 0;
-    if (!length) {
+    var len = o.length >>> 0;
+    if (!len) {
       return -1;
     }
-    var n = length - 1;
+    var n = len - 1;
     if (arguments.length > 1) {
       n = fromIndex | 0;
       if (n) {
         n = (n > 0 || -1) * Math.floor(Math.abs(n));
       }
     }
-    var i = n >= 0 ? Math.min(n, length - 1) : length - Math.abs(n);
+    var i = n >= 0 ? Math.min(n, len - 1) : len - Math.abs(n);
     while (i >= 0) {
       if (i in o && o[i] === searchElement) {
         return i;
@@ -187,22 +187,22 @@ Object.defineProperty(Array.prototype, 'slice', {
       throw TypeError('"this" is null or undefined');
     }
     var o = Object(this);
-    var length = o.length >>> 0;
+    var len = o.length >>> 0;
     // Handle negative value for "start"
     start |= 0;
-    start = (start >= 0) ? start : Math.max(0, length + start);
+    start = (start >= 0) ? start : Math.max(0, len + start);
     // Handle negative value for "end"
-    if (typeof end != 'undefined') {
-      if (end != Infinity) {
+    if (typeof end !== 'undefined') {
+      if (end !== Infinity) {
         end |= 0;
       }
       if (end < 0) {
-        end = length + end;
+        end = len + end;
       } else {
-        end = Math.min(end, length);
+        end = Math.min(end, len);
       }
     } else {
-      end = length;
+      end = len;
     }
     var size = end - start;
     var cloned = [];
@@ -222,18 +222,18 @@ Object.defineProperty(Array.prototype, 'splice', {
       throw TypeError('"this" is null or undefined');
     }
     var o = Object(this);
-    var length = o.length >>> 0;
+    var len = o.length >>> 0;
     start |= 0;
     if (start < 0) {
-      start = Math.max(length + start, 0);
+      start = Math.max(len + start, 0);
     } else {
-      start = Math.min(start, length);
+      start = Math.min(start, len);
     }
     if (arguments.length < 1) {
-      deleteCount = length - start;
+      deleteCount = len - start;
     } else {
       deleteCount |= 0;
-      deleteCount = Math.max(0, Math.min(deleteCount, length - start));
+      deleteCount = Math.max(0, Math.min(deleteCount, len - start));
     }
     var removed = [];
     // Remove specified elements.
@@ -242,23 +242,23 @@ Object.defineProperty(Array.prototype, 'splice', {
       o[i] = o[i + deleteCount];
     }
     // Move other element to fill the gap.
-    for (var i = start + deleteCount; i < length - deleteCount; i++) {
+    for (var i = start + deleteCount; i < len - deleteCount; i++) {
       o[i] = o[i + deleteCount];
     }
     // Delete superfluous properties.
-    for (var i = length - deleteCount; i < length; i++) {
+    for (var i = len - deleteCount; i < len; i++) {
       delete o[i];
     }
-    length -= deleteCount;
+    len -= deleteCount;
     // Insert specified items.
-    for (var i = length - 1; i >= start; i--) {
+    for (var i = len - 1; i >= start; i--) {
       o[i + arguments.length - 2] = o[i];
     }
-    length += arguments.length - 2;
+    len += arguments.length - 2;
     for (var i = 2; i < arguments.length; i++) {
       o[start + i - 2] = arguments[i];
     }
-    o.length = length;
+    o.length = len;
     return removed;
   }
 });
@@ -271,14 +271,14 @@ Object.defineProperty(Array.prototype, 'concat', {
     if (!this) {
       throw TypeError('"this" is null or undefined');
     }
+    var o = Object(this);
     var cloned = [];
-    for (var i = 0; i < this.length; i++) {
-      cloned[i] = this[i];
-    }
-    for (var j = 0; j < arguments.length; j++) {
-      var list = arguments[j];
-      for (var i = 0; i < list.length; i++) {
-        cloned[cloned.length] = list[i];
+    for (var i = -1; i < arguments.length; i++) {
+      var value = (i === -1) ? o : arguments[i];
+      if (Array.isArray(value)) {
+        cloned.push.apply(cloned, value);
+      } else {
+        cloned.push(value);
       }
     }
     return cloned;
@@ -293,14 +293,15 @@ Object.defineProperty(Array.prototype, 'join', {
     if (!this) {
       throw TypeError('"this" is null or undefined');
     }
-    var separator = typeof opt_separator == 'undefined' ?
+    var o = Object(this);
+    var separator = typeof opt_separator === 'undefined' ?
         ',' : ('' + opt_separator);
     var str = '';
-    for (var i = 0; i < this.length; i++) {
+    for (var i = 0; i < o.length; i++) {
       if (i && separator) {
         str += separator;
       }
-      str += this[i];
+      str += o[i];
     }
     return str;
   }
@@ -313,14 +314,14 @@ Object.defineProperty(Array.prototype, 'every', {
   value: function(callbackfn, thisArg) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/every
-    if (this == null || typeof callbackfn !== 'function') throw new TypeError;
-    var T, k;
-    var O = Object(this);
-    var len = O.length >>> 0;
-    if (arguments.length > 1) T = thisArg;
+    if (this === null || typeof callbackfn !== 'function') throw TypeError();
+    var t, k;
+    var o = Object(this);
+    var len = o.length >>> 0;
+    if (arguments.length > 1) t = thisArg;
     k = 0;
     while (k < len) {
-      if (k in O && !callbackfn.call(T, O[k], k, O)) return false;
+      if (k in o && !callbackfn.call(t, o[k], k, o)) return false;
       k++;
     }
     return true;
@@ -334,15 +335,15 @@ Object.defineProperty(Array.prototype, 'filter', {
   value: function(fun, var_args) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
-    if (this === void 0 || this === null || typeof fun !== 'function') throw new TypeError;
-    var t = Object(this);
-    var len = t.length >>> 0;
+    if (this === void 0 || this === null || typeof fun !== 'function') throw TypeError();
+    var o = Object(this);
+    var len = o.length >>> 0;
     var res = [];
     var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
     for (var i = 0; i < len; i++) {
-      if (i in t) {
-        var val = t[i];
-        if (fun.call(thisArg, val, i, t)) res.push(val);
+      if (i in o) {
+        var val = o[i];
+        if (fun.call(thisArg, val, i, o)) res.push(val);
       }
     }
     return res;
@@ -356,14 +357,14 @@ Object.defineProperty(Array.prototype, 'forEach', {
   value: function(callback, thisArg) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
-    if (this == null || typeof callback !== 'function') throw new TypeError;
-    var T, k;
-    var O = Object(this);
-    var len = O.length >>> 0;
-    if (arguments.length > 1) T = thisArg;
+    if (this === null || typeof callback !== 'function') throw TypeError();
+    var t, k;
+    var o = Object(this);
+    var len = o.length >>> 0;
+    if (arguments.length > 1) t = thisArg;
     k = 0;
     while (k < len) {
-      if (k in O) callback.call(T, O[k], k, O);
+      if (k in o) callback.call(t, o[k], k, o);
       k++;
     }
   }
@@ -376,18 +377,18 @@ Object.defineProperty(Array.prototype, 'map', {
   value: function(callback, thisArg) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/map
-    if (this == null || typeof callback !== 'function') new TypeError;
-    var T, A, k;
-    var O = Object(this);
-    var len = O.length >>> 0;
-    if (arguments.length > 1) T = thisArg;
-    A = new Array(len);
+    if (this === null || typeof callback !== 'function') throw TypeError();
+    var t, a, k;
+    var o = Object(this);
+    var len = o.length >>> 0;
+    if (arguments.length > 1) t = thisArg;
+    a = new Array(len);
     k = 0;
     while (k < len) {
-      if (k in O) A[k] = callback.call(T, O[k], k, O);
+      if (k in o) a[k] = callback.call(t, o[k], k, o);
       k++;
     }
-    return A;
+    return a;
   }
 });
 
@@ -398,19 +399,19 @@ Object.defineProperty(Array.prototype, 'reduce', {
   value: function(callback /*, initialValue*/) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
-    if (this == null || typeof callback !== 'function') throw new TypeError;
-    var t = Object(this), len = t.length >>> 0, k = 0, value;
-    if (arguments.length == 2) {
+    if (this === null || typeof callback !== 'function') throw TypeError();
+    var o = Object(this), len = o.length >>> 0, k = 0, value;
+    if (arguments.length === 2) {
       value = arguments[1];
     } else {
-      while (k < len && !(k in t)) k++;
+      while (k < len && !(k in o)) k++;
       if (k >= len) {
-        throw new TypeError('Reduce of empty array with no initial value');
+        throw TypeError('Reduce of empty array with no initial value');
       }
-      value = t[k++];
+      value = o[k++];
     }
     for (; k < len; k++) {
-      if (k in t) value = callback(value, t[k], k, t);
+      if (k in o) value = callback(value, o[k], k, o);
     }
     return value;
   }
@@ -423,19 +424,19 @@ Object.defineProperty(Array.prototype, 'reduceRight', {
   value: function(callback /*, initialValue*/) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/ReduceRight
-    if (null === this || 'undefined' === typeof this || 'function' !== typeof callback) throw new TypeError;
-    var t = Object(this), len = t.length >>> 0, k = len - 1, value;
+    if (null === this || 'undefined' === typeof this || 'function' !== typeof callback) throw TypeError();
+    var o = Object(this), len = o.length >>> 0, k = len - 1, value;
     if (arguments.length >= 2) {
       value = arguments[1];
     } else {
-      while (k >= 0 && !(k in t)) k--;
+      while (k >= 0 && !(k in o)) k--;
       if (k < 0) {
-        throw new TypeError('Reduce of empty array with no initial value');
+        throw TypeError('Reduce of empty array with no initial value');
       }
-      value = t[k--];
+      value = o[k--];
     }
     for (; k >= 0; k--) {
-      if (k in t) value = callback(value, t[k], k, t);
+      if (k in o) value = callback(value, o[k], k, o);
     }
     return value;
   }
@@ -448,12 +449,12 @@ Object.defineProperty(Array.prototype, 'some', {
   value: function(fun/*, thisArg*/) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/some
-    if (this == null || typeof fun !== 'function') throw new TypeError;
-    var t = Object(this);
-    var len = t.length >>> 0;
+    if (this === null || typeof fun !== 'function') throw TypeError();
+    var o = Object(this);
+    var len = o.length >>> 0;
     var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
     for (var i = 0; i < len; i++) {
-      if (i in t && fun.call(thisArg, t[i], i, t)) {
+      if (i in o && fun.call(thisArg, o[i], i, o)) {
         return true;
       }
     }
@@ -466,19 +467,25 @@ Object.defineProperty(Array.prototype, 'sort', {
   enumerable: false,
   writable: true,
   value: function(opt_comp) {
+    if (!this) {
+      throw TypeError('"this" is null or undefined');
+    }
+    if (typeof opt_comp !== 'function') {
+      opt_comp = undefined;
+    }
     // TODO: Switch to any algorithm other than bubble sort.
     for (var i = 0; i < this.length; i++) {
       var changes = 0;
       for (var j = 0; j < this.length - i - 1; j++) {
-        if (opt_comp ?
-            opt_comp(this[j], this[j + 1]) > 0 : this[j] > this[j + 1]) {
+        if (opt_comp ? (opt_comp(this[j], this[j + 1]) > 0) :
+            (String(this[j]) > String(this[j + 1]))) {
           var swap = this[j];
           this[j] = this[j + 1];
           this[j + 1] = swap;
           changes++;
         }
       }
-      if (changes <= 1) break;
+      if (!changes) break;
     }
     return this;
   }
@@ -489,9 +496,13 @@ Object.defineProperty(Array.prototype, 'toLocaleString', {
   enumerable: false,
   writable: true,
   value: function() {
+    if (!this) {
+      throw TypeError('"this" is null or undefined');
+    }
+    var o = Object(this);
     var out = [];
-    for (var i = 0; i < this.length; i++) {
-      out[i] = (this[i] === null || this[i] === undefined) ? '' : this[i].toLocaleString();
+    for (var i = 0; i < o.length; i++) {
+      out[i] = (o[i] === null || o[i] === undefined) ? '' : o[i].toLocaleString();
     }
     return out.join(',');
   }
