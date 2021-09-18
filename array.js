@@ -69,7 +69,7 @@ Object.defineProperty(Array.prototype, 'shift', {
     }
     var value = o[0];
     for (var i = 0; i < len - 1; i++) {
-      if (o.hasOwnProperty(i + 1)) {
+      if ((i + 1) in o) {
         o[i] = o[i + 1];
       } else {
         delete o[i];
@@ -95,7 +95,7 @@ Object.defineProperty(Array.prototype, 'unshift', {
       len = 0;
     }
     for (var i = len - 1; i >= 0; i--) {
-      if (o.hasOwnProperty(i)) {
+      if (i in o) {
         o[i + arguments.length] = o[i];
       } else {
         delete o[i + arguments.length];
@@ -123,8 +123,8 @@ Object.defineProperty(Array.prototype, 'reverse', {
     }
     for (var i = 0; i < len / 2 - 0.5; i++) {
       var x = o[i];
-      var hasX = o.hasOwnProperty(i);
-      if (o.hasOwnProperty(len - i - 1)) {
+      var hasX = i in o;
+      if ((len - i - 1) in o) {
         o[i] = o[len - i - 1];
       } else {
         delete o[i];
@@ -224,7 +224,7 @@ Object.defineProperty(Array.prototype, 'slice', {
     var size = end - start;
     var cloned = new Array(size);
     for (var i = 0; i < size; i++) {
-      if (o.hasOwnProperty(start + i)) {
+      if ((start + i) in o) {
         cloned[i] = o[start + i];
       }
     }
@@ -257,12 +257,12 @@ Object.defineProperty(Array.prototype, 'splice', {
     var removed = [];
     // Remove specified elements.
     for (var i = start; i < start + deleteCount; i++) {
-      if (o.hasOwnProperty(i)) {
+      if (i in o) {
         removed.push(o[i]);
       } else {
         removed.length++;
       }
-      if (o.hasOwnProperty(i + deleteCount)) {
+      if ((i + deleteCount) in o) {
         o[i] = o[i + deleteCount];
       } else {
         delete o[i];
@@ -270,7 +270,7 @@ Object.defineProperty(Array.prototype, 'splice', {
     }
     // Move other element to fill the gap.
     for (var i = start + deleteCount; i < len - deleteCount; i++) {
-      if (o.hasOwnProperty(i + deleteCount)) {
+      if ((i + deleteCount) in o) {
         o[i] = o[i + deleteCount];
       } else {
         delete o[i];
@@ -284,7 +284,7 @@ Object.defineProperty(Array.prototype, 'splice', {
     // Insert specified items.
     var arl = arguments.length - 2;
     for (var i = len - 1; i >= start; i--) {
-      if (o.hasOwnProperty(i)) {
+      if (i in o) {
         o[i + arl] = o[i];
       } else {
         delete o[i + arl];
@@ -313,7 +313,7 @@ Object.defineProperty(Array.prototype, 'concat', {
       var value = (i === -1) ? o : arguments[i];
       if (Array.isArray(value)) {
         for (var j = 0, l = value.length; j < l; j++) {
-          if (value.hasOwnProperty(j)) {
+          if (j in value) {
             cloned.push(value[j]);
           } else {
             cloned.length++;
@@ -522,8 +522,8 @@ Object.defineProperty(Array.prototype, 'sort', {
         if (opt_comp ? (opt_comp(this[j], this[j + 1]) > 0) :
             (String(this[j]) > String(this[j + 1]))) {
           var swap = this[j];
-          var hasSwap = this.hasOwnProperty(j);
-          if (this.hasOwnProperty(j + 1)) {
+          var hasSwap = j in this;
+          if ((j + 1) in this) {
             this[j] = this[j + 1];
           } else {
             delete this[j]
