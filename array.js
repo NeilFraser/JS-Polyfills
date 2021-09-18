@@ -69,7 +69,11 @@ Object.defineProperty(Array.prototype, 'shift', {
     }
     var value = o[0];
     for (var i = 0; i < len - 1; i++) {
-      o[i] = o[i + 1];
+      if (o.hasOwnProperty(i + 1)) {
+        o[i] = o[i + 1];
+      } else {
+        delete o[i];
+      }
     }
     delete o[i];  // Needed for non-arrays.
     o.length = len - 1;
@@ -91,7 +95,11 @@ Object.defineProperty(Array.prototype, 'unshift', {
       len = 0;
     }
     for (var i = len - 1; i >= 0; i--) {
-      o[i + arguments.length] = o[i];
+      if (o.hasOwnProperty(i)) {
+        o[i + arguments.length] = o[i];
+      } else {
+        delete o[i + arguments.length];
+      }
     }
     for (var i = 0; i < arguments.length; i++) {
       o[i] = arguments[i];
@@ -115,8 +123,17 @@ Object.defineProperty(Array.prototype, 'reverse', {
     }
     for (var i = 0; i < len / 2 - 0.5; i++) {
       var x = o[i];
-      o[i] = o[len - i - 1];
-      o[len - i - 1] = x;
+      var hasX = o.hasOwnProperty(i);
+      if (o.hasOwnProperty(len - i - 1)) {
+        o[i] = o[len - i - 1];
+      } else {
+        delete o[i];
+      }
+      if (hasX) {
+        o[len - i - 1] = x;
+      } else {
+        delete o[len - i - 1];
+      }
     }
     return o;
   }
@@ -205,9 +222,11 @@ Object.defineProperty(Array.prototype, 'slice', {
       end = len;
     }
     var size = end - start;
-    var cloned = [];
+    var cloned = new Array(size);
     for (var i = 0; i < size; i++) {
-      cloned[i] = o[start + i];
+      if (o.hasOwnProperty(start + i)) {
+        cloned[i] = o[start + i];
+      }
     }
     return cloned;
   }
@@ -238,12 +257,24 @@ Object.defineProperty(Array.prototype, 'splice', {
     var removed = [];
     // Remove specified elements.
     for (var i = start; i < start + deleteCount; i++) {
-      removed[removed.length++] = o[i];
-      o[i] = o[i + deleteCount];
+      if (o.hasOwnProperty(i)) {
+        removed.push(o[i]);
+      } else {
+        removed.length++;
+      }
+      if (o.hasOwnProperty(i + deleteCount)) {
+        o[i] = o[i + deleteCount];
+      } else {
+        delete o[i];
+      }
     }
     // Move other element to fill the gap.
     for (var i = start + deleteCount; i < len - deleteCount; i++) {
-      o[i] = o[i + deleteCount];
+      if (o.hasOwnProperty(i + deleteCount)) {
+        o[i] = o[i + deleteCount];
+      } else {
+        delete o[i];
+      }
     }
     // Delete superfluous properties.
     for (var i = len - deleteCount; i < len; i++) {
@@ -251,10 +282,15 @@ Object.defineProperty(Array.prototype, 'splice', {
     }
     len -= deleteCount;
     // Insert specified items.
+    var arl = arguments.length - 2;
     for (var i = len - 1; i >= start; i--) {
-      o[i + arguments.length - 2] = o[i];
+      if (o.hasOwnProperty(i)) {
+        o[i + arl] = o[i];
+      } else {
+        delete o[i + arl];
+      }
     }
-    len += arguments.length - 2;
+    len += arl;
     for (var i = 2; i < arguments.length; i++) {
       o[start + i - 2] = arguments[i];
     }
@@ -276,7 +312,13 @@ Object.defineProperty(Array.prototype, 'concat', {
     for (var i = -1; i < arguments.length; i++) {
       var value = (i === -1) ? o : arguments[i];
       if (Array.isArray(value)) {
-        cloned.push.apply(cloned, value);
+        for (var j = 0, l = value.length; j < l; j++) {
+          if (value.hasOwnProperty(j)) {
+            cloned.push(value[j]);
+          } else {
+            cloned.length++;
+          }
+        }
       } else {
         cloned.push(value);
       }
@@ -301,7 +343,7 @@ Object.defineProperty(Array.prototype, 'join', {
       if (i && separator) {
         str += separator;
       }
-      str += o[i];
+      str += (o[i] === null || o[i] === undefined) ? '' : o[i];
     }
     return str;
   }
@@ -480,8 +522,17 @@ Object.defineProperty(Array.prototype, 'sort', {
         if (opt_comp ? (opt_comp(this[j], this[j + 1]) > 0) :
             (String(this[j]) > String(this[j + 1]))) {
           var swap = this[j];
-          this[j] = this[j + 1];
-          this[j + 1] = swap;
+          var hasSwap = this.hasOwnProperty(j);
+          if (this.hasOwnProperty(j + 1)) {
+            this[j] = this[j + 1];
+          } else {
+            delete this[j]
+          }
+          if (hasSwap) {
+            this[j + 1] = swap;
+          } else {
+            delete this[j + 1]
+          }
           changes++;
         }
       }
