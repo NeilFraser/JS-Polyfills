@@ -104,7 +104,7 @@ Object.defineProperty(Array.prototype, 'unshift', {
     for (var i = 0; i < arguments.length; i++) {
       o[i] = arguments[i];
     }
-    return o.length = len + arguments.length;
+    return (o.length = len + arguments.length);
   }
 });
 
