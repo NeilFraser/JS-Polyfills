@@ -526,12 +526,12 @@ Object.defineProperty(Array.prototype, 'sort', {
           if ((j + 1) in this) {
             this[j] = this[j + 1];
           } else {
-            delete this[j]
+            delete this[j];
           }
           if (hasSwap) {
             this[j + 1] = swap;
           } else {
-            delete this[j + 1]
+            delete this[j + 1];
           }
           changes++;
         }
