@@ -248,7 +248,7 @@ Object.defineProperty(Array.prototype, 'splice', {
     } else {
       start = Math.min(start, len);
     }
-    if (arguments.length < 1) {
+    if (arguments.length < 2) {
       deleteCount = len - start;
     } else {
       deleteCount |= 0;
@@ -281,18 +281,20 @@ Object.defineProperty(Array.prototype, 'splice', {
       delete o[i];
     }
     len -= deleteCount;
-    // Insert specified items.
-    var arl = arguments.length - 2;
-    for (var i = len - 1; i >= start; i--) {
-      if (i in o) {
-        o[i + arl] = o[i];
-      } else {
-        delete o[i + arl];
+    if (arguments.length > 2) {
+      // Insert specified items.
+      var arl = arguments.length - 2;
+      for (var i = len - 1; i >= start; i--) {
+        if (i in o) {
+          o[i + arl] = o[i];
+        } else {
+          delete o[i + arl];
+        }
       }
-    }
-    len += arl;
-    for (var i = 2; i < arguments.length; i++) {
-      o[start + i - 2] = arguments[i];
+      len += arl;
+      for (var i = 2; i < arguments.length; i++) {
+        o[start + i - 2] = arguments[i];
+      }
     }
     o.length = len;
     return removed;
