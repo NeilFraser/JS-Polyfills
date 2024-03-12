@@ -3,13 +3,13 @@ Object.defineProperty(Object, 'keys', {
   configurable: true,
   enumerable: false,
   writable: true,
-  value: function(object) {
-    if (typeof object != 'function' && (typeof object != 'object' || !object)) {
+  value: function(obj) {
+    if (typeof obj !== 'function' && (typeof obj !== 'object' || !obj)) {
       throw TypeError('Object.keys called on non-object');
     }
     var keys = [];
-    for (var prop in object) {
-      if (Object.prototype.hasOwnProperty.call(object, prop)) {
+    for (var prop in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, prop)) {
         keys.push(prop);
       }
     }
@@ -21,8 +21,8 @@ Object.defineProperty(Object, 'defineProperties', {
   configurable: true,
   enumerable: false,
   writable: true,
-  value: function(object, props) {
-    if (typeof object != 'function' && (typeof object != 'object' || !object)) {
+  value: function(obj, props) {
+    if (typeof obj !== 'function' && (typeof obj !== 'object' || !obj)) {
       throw TypeError('Object.defineProperties called on non-object');
     }
     if (props === undefined || props === null) {
@@ -31,7 +31,7 @@ Object.defineProperty(Object, 'defineProperties', {
     props = Object(props);
     var keys = Object.keys(props);
     for (var i = 0; i < keys.length; i++) {
-      Object.defineProperty(object, keys[i], props[keys[i]]);
+      Object.defineProperty(obj, keys[i], props[keys[i]]);
     }
     return obj;
   }
@@ -41,8 +41,8 @@ Object.defineProperty(Object.prototype, 'isPrototypeOf', {
   configurable: true,
   enumerable: false,
   writable: true,
-  value: function(object) {
-    var child = Object.getPrototypeOf(object);
+  value: function(obj) {
+    var child = Object.getPrototypeOf(obj);
     while (child) {
       if (child == this) {
         return true;

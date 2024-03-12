@@ -36,7 +36,7 @@ Object.defineProperty(Number.prototype, 'toExponential', {
   writable: true,
   value: function(fractionDigits) {
     var num = this;
-    if (typeof num != 'number') {
+    if (typeof num !== 'number') {
       if (num == Number.prototype) {
         num = 0;
       } else if (num instanceof Number) {
@@ -57,18 +57,18 @@ Object.defineProperty(Number.prototype, 'toExponential', {
     var str = '' + num;
     var integer, decimal, exponent;
     var eIndex = str.indexOf('e');
-    if (eIndex != -1) {
+    if (eIndex !== -1) {
       // Exponential notation.
       var dotIndex = str.indexOf('.');
-      integer = str.substring(0, dotIndex == -1 ? eIndex : dotIndex);
-      decimal = str.substring((dotIndex == -1 ? eIndex : dotIndex) + 1, eIndex);
+      integer = str.substring(0, dotIndex === -1 ? eIndex : dotIndex);
+      decimal = str.substring((dotIndex === -1 ? eIndex : dotIndex) + 1, eIndex);
       exponent = str.substring(eIndex + 1);
     } else {
       // Decimal notation.
       integer = str[0] == '-' ? str.substring(0, 2) : str[0];
       decimal = str.substring(integer.length);
       var dotIndex = decimal.indexOf('.');
-      if (dotIndex == -1) {
+      if (dotIndex === -1) {
         exponent = decimal.length;
       } else {
         exponent = dotIndex;
@@ -115,7 +115,7 @@ Object.defineProperty(Number.prototype, 'toFixed', {
   writable: true,
   value: function(digits) {
     var num = this;
-    if (typeof num != 'number') {
+    if (typeof num !== 'number') {
       if (num == Number.prototype) {
         num = 0;
       } else if (num instanceof Number) {
@@ -134,7 +134,7 @@ Object.defineProperty(Number.prototype, 'toFixed', {
       throw RangeError('toFixed() argument must be between 0 and 20');
     }
     var str = '' + num;
-    if (!isFinite(num) || str.indexOf('e+') != -1) {
+    if (!isFinite(num) || str.indexOf('e+') !== -1) {
       return str;  // Unable to manipulate number.
     }
     if (!digits) {
@@ -172,7 +172,7 @@ Object.defineProperty(Number.prototype, 'toPrecision', {
   writable: true,
   value: function(precision) {
     var num = this;
-    if (typeof num != 'number') {
+    if (typeof num !== 'number') {
       if (num == Number.prototype) {
         num = 0;
       } else if (num instanceof Number) {
@@ -208,7 +208,7 @@ Object.defineProperty(Number.prototype, 'toString', {
   writable: true,
   value: function(radix) {
     var num = this;
-    if (typeof num != 'number') {
+    if (typeof num !== 'number') {
       if (num == Number.prototype) {
         num = 0;
       } else if (num instanceof Number) {

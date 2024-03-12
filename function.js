@@ -1,3 +1,4 @@
+
 Object.defineProperty(Function.prototype, 'bind', {
   configurable: true,
   writable: true,
@@ -5,7 +6,7 @@ Object.defineProperty(Function.prototype, 'bind', {
     // Polyfill copied from:
     // developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_objects/Function/bind
     if (typeof this !== 'function') {
-      throw TypeError('What is trying to be bound is not callable');
+      throw TypeError('this is not a function');
     }
     var aArgs   = Array.prototype.slice.call(arguments, 1),
         fToBind = this,

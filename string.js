@@ -7,9 +7,9 @@ Object.defineProperty(String.prototype, 'concat', {
     if (this === null || this === undefined) {
       throw TypeError('"this" is null or undefined');
     }
-    var str = '' + this;
+    var str = this + '';
     for (var i = 0; i < arguments.length; i++) {
-      str += '' + arguments[i];
+      str += arguments[i];
     }
     return str;
   }
@@ -24,8 +24,8 @@ Object.defineProperty(String.prototype, 'indexOf', {
     if (this === null || this === undefined) {
       throw TypeError('"this" is null or undefined');
     }
-    var str = '' + this;
-    searchValue = '' + searchValue;
+    var str = this + '';
+    searchValue += '';
     if (fromIndex != Infinity) {
       fromIndex = Math.max(0, fromIndex | 0);
     }
@@ -54,8 +54,8 @@ Object.defineProperty(String.prototype, 'lastIndexOf', {
     if (this === null || this === undefined) {
       throw TypeError('"this" is null or undefined');
     }
-    var str = '' + this;
-    searchValue = '' + searchValue;
+    var str = this + '';
+    searchValue += '';
     if (fromIndex == Infinity || fromIndex === undefined || isNaN(fromIndex)) {
       fromIndex = str.length;
     } else {
@@ -98,18 +98,18 @@ Object.defineProperty(String.prototype, 'replace', {
     if (this === null || this === undefined) {
       throw TypeError('"this" is null or undefined');
     }
-    var str = '' + this;
-    match = '' + match;
+    var str = this + '';
+    match += '';
     var index = str.indexOf(match);
-    if (index == -1) {
+    if (index === -1) {
       return str;  // No match.
     }
     var prefix = str.substring(0, index);
     var suffix = str.substring(index + match.length);
-    if (typeof replace == 'function') {
+    if (typeof replace === 'function') {
       replace = replace(match, prefix.length, str);
     } else {
-      replace = '' + replace;
+      replace += '';
     }
     return prefix + replace + suffix;
   }
@@ -124,8 +124,8 @@ Object.defineProperty(String.prototype, 'split', {
     if (this === null || this === undefined) {
       throw TypeError('"this" is null or undefined');
     }
-    var str = '' + this;
-    separator = '' + separator;
+    var str = this + '';
+    separator += '';
     // Bug in JavaScript spec: If limit is Infinity, it becomes 0.
     limit = (limit === undefined) ? Infinity : (limit | 0);
     var list = [];
@@ -162,7 +162,7 @@ Object.defineProperty(String.prototype, 'substring', {
     if (this === null || this === undefined) {
       throw TypeError('"this" is null or undefined');
     }
-    var str = '' + this;
+    var str = this + '';
     if (indexStart != Infinity) {
       indexStart |= 0;
     }
@@ -200,7 +200,7 @@ Object.defineProperty(String.prototype, 'slice', {
     if (this === null || this === undefined) {
       throw TypeError('"this" is null or undefined');
     }
-    var str = '' + this;
+    var str = this + '';
     if (indexStart != Infinity) {
       indexStart |= 0;
     }
@@ -232,7 +232,7 @@ Object.defineProperty(String.prototype, 'substr', {
     if (this === null || this === undefined) {
       throw TypeError('"this" is null or undefined');
     }
-    var str = '' + this;
+    var str = this + '';
     if (indexStart != Infinity) {
       indexStart |= 0;
     }
@@ -261,7 +261,7 @@ Object.defineProperty(String.prototype, 'toUpperCase', {
     if (this === null || this === undefined) {
       throw TypeError('"this" is null or undefined');
     }
-    var str = '' + this;
+    var str = this + '';
     var lower = 'abcdefghijklmnopqrstuvwxyz';
     var upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var outStr = '';
@@ -286,7 +286,7 @@ Object.defineProperty(String.prototype, 'toLowerCase', {
     if (this === null || this === undefined) {
       throw TypeError('"this" is null or undefined');
     }
-    var str = '' + this;
+    var str = this + '';
     var lower = 'abcdefghijklmnopqrstuvwxyz';
     var upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var outStr = '';
@@ -315,7 +315,7 @@ Object.defineProperty(String.prototype, 'trim', {
     var white = ' \f\n\r\t\v\u00a0\u1680\u180e\u2000\u2001\u2002\u2003\u2004' +
         '\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000' +
         '\ufeff\uFEFF\xA0';
-    var str = '' + this;
+    var str = this + '';
     for (var start = 0; start < str.length; start++) {
       if (white.indexOf(str[start]) == -1) {
         break;
