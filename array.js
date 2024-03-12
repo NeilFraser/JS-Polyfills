@@ -338,12 +338,13 @@ Object.defineProperty(Array.prototype, 'join', {
       throw TypeError('"this" is null or undefined');
     }
     var o = Object(this);
-    var separator = typeof opt_separator === 'undefined' ?
+    var len = o.length >>> 0;
+    var sep = typeof opt_separator === 'undefined' ?
         ',' : ('' + opt_separator);
     var str = '';
-    for (var i = 0; i < o.length; i++) {
-      if (i && separator) {
-        str += separator;
+    for (var i = 0; i < len; i++) {
+      if (i && sep) {
+        str += sep;
       }
       str += (o[i] === null || o[i] === undefined) ? '' : o[i];
     }
@@ -355,17 +356,16 @@ Object.defineProperty(Array.prototype, 'every', {
   configurable: true,
   enumerable: false,
   writable: true,
-  value: function(callbackfn, thisArg) {
+  value: function(callback, thisArg) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/every
-    if (this === null || typeof callbackfn !== 'function') throw TypeError();
-    var t, k;
+    if (!this || typeof callback !== 'function') throw TypeError();
+    var t, k = 0;
     var o = Object(this);
     var len = o.length >>> 0;
     if (arguments.length > 1) t = thisArg;
-    k = 0;
     while (k < len) {
-      if (k in o && !callbackfn.call(t, o[k], k, o)) return false;
+      if (k in o && !callback.call(t, o[k], k, o)) return false;
       k++;
     }
     return true;
@@ -376,10 +376,10 @@ Object.defineProperty(Array.prototype, 'filter', {
   configurable: true,
   enumerable: false,
   writable: true,
-  value: function(fun, var_args) {
+  value: function(callback, var_args) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
-    if (this === void 0 || this === null || typeof fun !== 'function') throw TypeError();
+    if (!this || typeof callback !== 'function') throw TypeError();
     var o = Object(this);
     var len = o.length >>> 0;
     var res = [];
@@ -387,7 +387,7 @@ Object.defineProperty(Array.prototype, 'filter', {
     for (var i = 0; i < len; i++) {
       if (i in o) {
         var val = o[i];
-        if (fun.call(thisArg, val, i, o)) res.push(val);
+        if (callback.call(thisArg, val, i, o)) res.push(val);
       }
     }
     return res;
@@ -401,7 +401,7 @@ Object.defineProperty(Array.prototype, 'forEach', {
   value: function(callback, thisArg) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
-    if (this === null || typeof callback !== 'function') throw TypeError();
+    if (!this || typeof callback !== 'function') throw TypeError();
     var t, k;
     var o = Object(this);
     var len = o.length >>> 0;
@@ -421,7 +421,7 @@ Object.defineProperty(Array.prototype, 'map', {
   value: function(callback, thisArg) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/map
-    if (this === null || typeof callback !== 'function') throw TypeError();
+    if (!this || typeof callback !== 'function') throw TypeError();
     var t, a, k;
     var o = Object(this);
     var len = o.length >>> 0;
@@ -443,7 +443,7 @@ Object.defineProperty(Array.prototype, 'reduce', {
   value: function(callback /*, initialValue*/) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
-    if (this === null || typeof callback !== 'function') throw TypeError();
+    if (!this || typeof callback !== 'function') throw TypeError();
     var o = Object(this), len = o.length >>> 0, k = 0, value;
     if (arguments.length === 2) {
       value = arguments[1];
@@ -468,7 +468,7 @@ Object.defineProperty(Array.prototype, 'reduceRight', {
   value: function(callback /*, initialValue*/) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/ReduceRight
-    if (null === this || 'undefined' === typeof this || 'function' !== typeof callback) throw TypeError();
+    if (!this || typeof callback !== 'function') throw TypeError();
     var o = Object(this), len = o.length >>> 0, k = len - 1, value;
     if (arguments.length >= 2) {
       value = arguments[1];
@@ -490,15 +490,15 @@ Object.defineProperty(Array.prototype, 'some', {
   configurable: true,
   enumerable: false,
   writable: true,
-  value: function(fun/*, thisArg*/) {
+  value: function(callback /*, thisArg*/) {
     // Polyfill copied from:
     // developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/some
-    if (this === null || typeof fun !== 'function') throw TypeError();
+    if (!this || typeof callback !== 'function') throw TypeError();
     var o = Object(this);
     var len = o.length >>> 0;
     var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
     for (var i = 0; i < len; i++) {
-      if (i in o && fun.call(thisArg, o[i], i, o)) {
+      if (i in o && callback.call(thisArg, o[i], i, o)) {
         return true;
       }
     }
